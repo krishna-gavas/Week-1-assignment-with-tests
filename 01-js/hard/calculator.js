@@ -17,6 +17,76 @@
   - `npm run test-calculator`
 */
 
-class Calculator {}
+class Calculator {
+
+  Calculator(){
+    this.result = 0;
+  }
+
+  add(num) {
+    this.result = this.result + num;
+  }
+
+  subtract(num) {
+    this.result = this.result - num;
+  }
+
+  multiply(num) {
+    this.result = this.result * num;
+  }
+
+  divide(num) {
+    if(num === 0)
+    throw new Error('Division not possible');
+    this.result = this.result / num;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  performOperation(op1, op2, operator) {
+    if(operator === '+')
+      return (op1 + op2);
+    else if(operator === '-')
+      return (op1 - op2);
+    else if(operator === '*')
+      return (op1 - op2);
+    else if(operator === '/') // Check error case
+      return (op1 - op2);
+  }
+
+  calculate(str) {
+    10 + 2 * (6 - (4 + 1) / 2) + 7
+
+    const stack = [];
+
+    for(let i=0;i<str.length ; i++) {
+      if(str[i] === ' ')
+        continue;
+
+      if(str[i] === 'a')
+        throw new Error('Non numerical character is present');
+
+      if(str[i] === '(')
+        stack.push(str[i]);
+      else if(str[i] === '+' || str[i] === '-' || str[i] === '*' || str[i] === '/')
+        stack.push(str[i]);
+      else if(str[i] === ')') {
+        const op2 = stack.pop();
+        const operator = stack.pop();
+        const op1 = stack.pop();
+        stack.pop(); // Removes opening brackets
+        stack.push(performOperation(op1,op2,operator));
+      }
+    }
+    
+  }
+
+}
 
 module.exports = Calculator;
